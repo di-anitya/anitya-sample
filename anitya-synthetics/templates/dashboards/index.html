@@ -1,0 +1,71 @@
+{% extends "main.html" %}
+{% load staticfiles %}
+
+{% block title %}ダッシュボード{% endblock%}
+
+{% block body %}
+<div class="breadlist">› ダッシュボード</div>
+
+<h3>Ping応答</h3>
+<canvas class="my-4 w-100" id="pingResponse" width="900" height="380"></canvas>
+
+<h3>なんとなくのグラフ</h3>
+<canvas id="siteAvailavility" height="450" width="800"></canvas>
+
+<script>
+    var ctx = document.getElementById("pingResponse");
+    var pingResponse = new Chart(ctx, {
+      type: 'line',
+      data: {
+      labels: ["日曜日", "月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日"],
+        datasets: [{
+          data: [100, 150, 300, 500, 150, 250, 200],
+          lineTension: 0,
+          backgroundColor: 'transparent',
+          borderColor: '#007bff',
+          borderWidth: 4,
+          pointBackgroundColor: '#007bff'
+        }]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: false
+            }
+          }]
+        },
+        legend: {
+          display: false,
+        },
+        title: {
+            display: true,
+            text: 'Ping応答'
+        }
+      }
+    });
+</script>
+
+<script>
+    var ctx = document.getElementById("siteAvailavility");
+    var myPieChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+        labels: ["正常", "異常"],
+        datasets: [{
+            backgroundColor: [
+                "#BB5179",
+                "#58A27C",
+            ],
+            data: [2, 98]
+        }]
+        },
+        options: {
+            title: {
+                display: true,
+                text: '可用性'
+            }
+        }
+    });
+</script>
+{% endblock %}

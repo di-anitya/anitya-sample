@@ -1,0 +1,5 @@
+Django==2.2.1
+django-allauth==0.39.1
+django-bootstrap-modal-forms==1.4.2
+django-bootstrap4==0.0.8
+django-pure-pagination==0.3.0

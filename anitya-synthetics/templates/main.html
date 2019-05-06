@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<!-- {% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='slim' %} -->
+
+<html lang="ja">
+<head>
+  {% load staticfiles %}
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>{% block title %}{% endblock title %}</title>
+
+  {# --- favicon --- #}
+  <link href="{% static 'common/images/favicon.ico' %}" rel="shortcut icon" type="image/png">
+  {# --- css --- #}
+  <link href="{% static 'common/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'common/vendor/font-awesome/css/all.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'common/css/style.css' %}" rel="stylesheet">
+  {% block extra_css %}{% endblock %}
+
+  {# --- js --- #}
+  <script src="{% static 'common/vendor/jquery/jquery.slim.min.js' %}"></script>
+  <script src="{% static 'common/vendor/popper.min.js' %}" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+  <script src="{% static 'common/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
+  <script src="{% static 'common/vendor/jquery/jquery.bootstrap.modal.forms.js' %}"></script>
+  <script src="{% static 'common/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+  <script>
+    $(function() {
+      $("#leftside-navigation .sub-menu > a").click(function(e) {
+        $("#leftside-navigation ul ul").slideUp(), $(this).next().is(":visible") || $(this).next().slideDown(),
+        e.stopPropagation()
+      });
+    });
+  </script>
+
+  <!--[if lt IE 9]
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  [endif]-->
+    <!--
+  {% block extra_head %}
+  {% endblock %}
+  -->
+{% block extra_js %}{% endblock %}
+
+</head>
+<body>
+  <nav class="navbar navbar-dark bg-dark flex-md-nowrap p-0 shadow">
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#"><img alt="Anitya" class="img-fluid" src="{% static 'images/anitya_wide_black_transparency.png' %}"></a>
+      <form class="form-inline my-2 my-lg-0 mr-auto">
+        <input type="search" class="form-control mr-sm-2" placeholder="検索..." aria-label="検索...">
+        <button type="submit" class="btn btn-secondary my-2 my-sm-0">検索</button>
+      </form>
+      <ul class="nav navbar-nav">
+            <li class="nav-item dropdown show">
+              <a class="nav-link dropdown-toggle" role="button" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fa fa-bell"></i></a>
+
+              <div class="dropdown-menu" aria-labelledby="dropdown01">
+                <a class="dropdown-item" href="#">
+                  <i class="fa fa-check text-info "></i>
+                  <p>Anityaのプロモーション用シールを作ってください</p>
+                </a>
+                <a class="dropdown-item" href="#">
+                  <i class="fa fa-info text-danger"></i>
+                  <p>URL監視で異常を検知しました</p>
+                </a>
+                <a class="dropdown-item" href="#">
+                  <i class="fa fa-warning text-warning"></i>
+                  <p>証明書の有効期限に注意してください</p>
+                </a>
+              </div>
+             </li>
+      </ul>
+      <ul class="navbar-nav px-3">
+        <li class="nav-item dropdown show">
+              <a class="nav-link dropdown-toggle" role="button" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ user.get_username }}</a>
+              <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" href="#">プロフィール</a>
+                <a class="dropdown-item" href="/admin">管理ページ</a>
+                <a class="dropdown-item" href="{% url 'account_logout' %}">ログアウト</a>
+              </div>
+            </li>
+      </ul>
+
+    </nav>
+
+      <!-- {% if user.is_authenticated %}
+      <div class="collapse navbar-collapse" id="navbarEexample">
+        <li class="dropdown show">
+           <a class="btn btn-primary dropdown-toggle" href="#" data-toggle="dropdown">
+             {{ user.get_username }} さん</a>
+        </li>
+        <div class="dropdown-menu dropdown-menu-right">
+          <a class="dropdown-item" href="#">プロフィール</a>
+          <a class="dropdown-item" href="/admin">管理ページ</a>
+          <a class="dropdown-item" href="{% url 'account_logout' %}">ログアウト</a>
+        </div>
+      </div>
+      {% endif %} -->
+    </nav>
+
+  <!-- sidebar block -->
+  <div class="container-fluid">
+      <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+          <div id="leftside-navigation"class="sidebar-sticky nano">
+            <ul class="nano-content">
+            <li class="nav flex-column">
+              <li class="nav-item">
+                <a href="/"><i class="fa fa-tachometer-alt"></i><span>ダッシュボード</span></a>
+              </li>
+              <li class="sub-menu">
+                <a href="javascript:void(0);"><i class="fa fa-cloud"></i><span>外形監視</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+              <ul>
+                <li><a href="/single_monitor/ping">ping監視</a></li>
+                <li><a href="/single_monitor/port">port監視</a></li>
+                <li><a href="/single_monitor/url">URL監視</a></li>
+                <li><a href="/single_monitor/dns">DNS監視</a></li>
+                <li><a href="/single_monitor/domain">ドメイン監視</a></li>
+                <li><a href="/single_monitor/cert">証明書監視</a></li>
+              </ul>
+              </li>
+              <li class="sub-menu">
+                <a href="javascript:void(0);"><i class="fa fa-desktop"></i><span>シナリオ監視</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+                <ul>
+                  <li><a href="/scenario_monitor/step">ステップ監視</a></li>
+                  <li><a href="/scenario_monitor/api">API監視</a></li>
+                </ul>
+              </li>
+              <li class="sub-menu">
+                <a href="javascript:void(0);"><i class="fa fa-shield-alt"></i><span>セキュリティ監視</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+                <ul>
+                  <li><a href="/security_monitor/falsification">改ざん監視</a></li>
+                  <li><a href="/security_monitor/vulnerability">脆弱性監視</a></li>
+                </ul>
+              </li>
+              <li class="sub-menu">
+                <a href="javascript:void(0);"><i class="fa fa-cogs"></i><span>監視設定</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+                <ul>
+                  <li><a href="/settings/single_monitor">hoge</a></li>
+                  <li><a href="/settings/scenario_monitor">fuga</a></li>
+                  <li><a href="/settings/security_monitor">moga</a></li>
+                </ul>
+              </li>
+            </ul>
+           </div>
+        </nav>
+
+
+      </div>
+    </div>
+
+
+
+  <!-- main block -->
+  <main id="main" role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+    {% block body %}
+    {% endblock %}
+
+    {% block modal %}
+    {% endblock %}
+  </main>
+
+</body>
+</html>
