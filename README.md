@@ -14,5 +14,7 @@
     
 * 動作確認
     * anitya-syntheticsのPJフォルダへ移動する
+    * python manage.py migrate
+    * python manage.py createsuperuser
     * pip manage.py runserver 0:8000
     * http://<ローカル環境の任意のIP>:8000 へアクセスする
